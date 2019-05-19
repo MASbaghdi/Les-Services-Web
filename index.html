@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Presentation</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/black.css">
+		<link rel="stylesheet" href="css/monokai.css">
+
+	</head>
+	<body>
+
+		<div class="reveal"><div class="slides" import="slides.html"></div></div>
+
+		<script src="js/reveal.js"></script>
+		<script src="js/import.js"></script>
+		<script src="js/jquery.slim.min.js"></script>
+		<script>
+function getRndInteger(min, max) {
+	return Math.floor(Math.random() * (max - min)) + min;
+}
+function getRndReal(min, max) {
+	return Math.random() * (max - min) + min;
+}
+function rgbaAsStr(r, g, b, a) {
+	return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
+}
+function hslaAsStr(h, s, l, a) {
+	return "hsla(" + h + ", " + s + "%, " + l + "%, " + a + ")";
+}
+function getRndRGBA() {
+	let r = getRndInteger(0, 256);
+	let g = getRndInteger(0, 256);
+	let b = getRndInteger(0, 256);
+	let a = getRndReal(0, 1);
+	return rgbaAsStr(r, g, b, a);
+}
+function getRndHSLA() {
+	let h = getRndInteger(0, 360);
+	let s = 100;
+	let l = 50;
+	let a = 0.25;
+	return hslaAsStr(h, s, l, a);
+}
+
+importAll(() => {
+	let tags = $(".reveal .slides section");
+	for (let i = 0; i < tags.length; i++) {
+		let tag = tags.get(i);
+		// if(!tag.hasAttribute("data-background-image")) {
+		// 	tag.setAttribute("data-background-image", "img/background.png");
+		// }
+		if(!tag.hasAttribute("data-background")) {
+			tag.setAttribute("data-background",
+				// "linear-gradient(rgba(0, 100, 0, 0.5), rgba(1, 0, 0, 0.5))"
+				"radial-gradient(circle, rgba(0,0,0,1) 60%, " + getRndHSLA() + " 100%)"
+			);
+		}
+	}
+
+	Reveal.initialize({
+		hash: true,
+		math: {
+			mathjax: 'MathJax/MathJax.js',
+			config: 'TeX-AMS_CHTML'
+		},
+		dependencies: [
+			{ src: 'js/highlight.js', async: true },
+			{ src: 'js/math.js', async: true }
+		]
+	});
+	Reveal.configure({ slideNumber: 'c/t' });
+
+});
+		</script>
+	</body>
+</html>
